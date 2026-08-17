@@ -1,0 +1,193 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "schema-version": "1.14.0",
+    "install": {
+      "go": {
+        "pkg-path": "go"
+      },
+      "nodejs_24": {
+        "pkg-path": "nodejs_24"
+      }
+    },
+    "hook": {},
+    "profile": {},
+    "options": {}
+  },
+  "packages": [
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/nai0r884zly4zrzxzx02cb9pgnjizpi8-go-1.26.5.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "name": "go-1.26.5",
+      "pname": "go",
+      "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "rev_count": 1051473,
+      "rev_date": "2026-08-10T17:52:38Z",
+      "scrape_date": "2026-08-12T05:00:27.637595Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.26.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/8g06ffyaas333hzhsjcd50nqbsldqjhh-go-1.26.5"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/rbvap710527sdym1fq99nd9sapfwgw1g-go-1.26.5.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "name": "go-1.26.5",
+      "pname": "go",
+      "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "rev_count": 1051473,
+      "rev_date": "2026-08-10T17:52:38Z",
+      "scrape_date": "2026-08-12T05:34:37.886101Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.26.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/p8wbwrmaqggbg1griwkcjag8lbkgz0qg-go-1.26.5"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "go",
+      "broken": false,
+      "derivation": "/nix/store/2s46bm7d49srfl31ay0304yg56vfi8q6-go-1.26.5.drv",
+      "description": "Go Programming language",
+      "install_id": "go",
+      "license": "BSD-3-Clause",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "name": "go-1.26.5",
+      "pname": "go",
+      "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "rev_count": 1051473,
+      "rev_date": "2026-08-10T17:52:38Z",
+      "scrape_date": "2026-08-12T06:14:59.519594Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.26.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/pwj3x44pp735yb038fnmqckyyra9k29x-go-1.26.5"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_24",
+      "broken": false,
+      "derivation": "/nix/store/xva0xdjz64fq41pxvk7jxb08wi4hps3x-nodejs-24.18.1.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_24",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "name": "nodejs-24.18.1",
+      "pname": "nodejs_24",
+      "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "rev_count": 1051473,
+      "rev_date": "2026-08-10T17:52:38Z",
+      "scrape_date": "2026-08-12T05:00:52.471908Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "24.18.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/4hl5crqayhix48i7wm0rj6fp6j1367r2-nodejs-24.18.1"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_24",
+      "broken": false,
+      "derivation": "/nix/store/5bivsry1xsf488jl54x4qpn87zxf9laa-nodejs-24.18.1.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_24",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "name": "nodejs-24.18.1",
+      "pname": "nodejs_24",
+      "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "rev_count": 1051473,
+      "rev_date": "2026-08-10T17:52:38Z",
+      "scrape_date": "2026-08-12T05:35:13.467184Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "24.18.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/5q4il3ap8r0mm4lib12ahldpilw41yxf-nodejs-24.18.1"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_24",
+      "broken": false,
+      "derivation": "/nix/store/lqg7vihx3rjim9dm8lgbsl619spxvh9n-nodejs-24.18.1.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_24",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "name": "nodejs-24.18.1",
+      "pname": "nodejs_24",
+      "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "rev_count": 1051473,
+      "rev_date": "2026-08-10T17:52:38Z",
+      "scrape_date": "2026-08-12T06:15:37.737693Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "24.18.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/hwjfj8m2kcsl7kz2xa5yf84jbfh9jssf-nodejs-24.18.1"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    }
+  ]
+}
