@@ -226,6 +226,87 @@ This publishes `$(KO_DOCKER_REPO)/temporal-proxy`, `$(KO_DOCKER_REPO)/verify-wor
 
 ---
 
+---
+## Building container images locally
+
+Set the following variables:
+```sh
+export PROJECT=anthony-project-470414
+export REGION=us-central1
+export REPO=temporal-untrusted-workers
+export BUILD_ID=$(git rev-parse --short HEAD)
+export IMAGE_PROXY=$REGION-docker.pkg.dev/$PROJECT/$REPO/proxy:$BUILD_ID
+export IMAGE_WORKERS=$REGION-docker.pkg.dev/$PROJECT/$REPO/untrusted-workers:$BUILD_ID
+export KO_DOCKER_REPO=$REGION-docker.pkg.dev/$PROJECT/$REPO
+```
+
+Use the following commands to generate the Docker Images.
+```sh
+# Go Proxy
+make image-proxy IMAGE_NAME=proxy PLATFORM=linux/amd64 TAGS=v0.1.0
+
+# TypeScript worker
+make image-verify-worker-ts IMAGE_NAME=untrusted-workers PLATFORM=linux/amd64 TAGS=v0.1.0
+
+# Go worker
+make image-verify-worker IMAGE_NAME=verify-worker PLATFORM=linux/amd64 TAGS=v0.1.0
+```
+
+Create the Artifact Registry Repo
+```sh
+gcloud artifacts repositories create $REPO \
+  --repository-format=docker \
+  --location=$REGION \
+  --description="Temporal worker images"
+
+gcloud artifacts repositories list --location=$REGION
+gcloud auth configure-docker $REGION-docker.pkg.dev
+```
+
+Use the following commands to deploy the local images to GCP
+```sh
+docker push $IMAGE_PROXY
+docker push $IMAGE_WORKERS
+```
+___
+
+---
+# Deploying to Cloud Run
+
+This deploys the Proxy
+```sh
+gcloud run deploy temporal-proxy \
+  --image=$IMAGE_PROXY \
+  --region $REGION\
+  --use-http2 \
+  --allow-unauthenticated \
+  --min-instances=1 --max-instances=1 \
+  --port=8080 \
+  --set-env-vars=TEMPORAL_PROXY_LISTEN_ADDR=0.0.0.0:8080 \
+  --set-env-vars=TEMPORAL_PROXY_AUTH_MODE=jwt \
+  --set-env-vars=TEMPORAL_PROXY_JWT_AUDIENCE=https://temporal-proxy-473197570718.us-central1.run.app \
+  --set-env-vars=TEMPORAL_PROXY_UPSTREAM_ADDR=serverless-gcp.sdvdw.tmprl.cloud:7233 \
+  --set-env-vars=TEMPORAL_PROXY_UPSTREAM_TLS_MODE=tls \
+  --set-env-vars=TEMPORAL_PROXY_UPSTREAM_AUTH_MODE=api-key \
+  --set-env-vars=TEMPORAL_PROXY_DOWNSTREAM_TLS_MODE=plaintext \
+  --set-env-vars=TEMPORAL_PROXY_STATIC_AUTH_FILE=/etc/temporal/auth.json \
+  --set-secrets=TEMPORAL_PROXY_UPSTREAM_API_KEY=temporal-api-key:latest
+```
+
+```sh
+gcloud run worker-pools deploy verify-worker \
+  --image=$IMAGE_WORKERS \
+  --region $REGION\
+  --service-account=temporal-worker-pool-runner@anthony-project-470414.iam.gserviceaccount.com \
+  --set-env-vars=VERIFY_PROXY_ADDR=temporal-proxy-473197570718.us-central1.run.app:443 \
+  --set-env-vars=VERIFY_TLS_MODE=tls \
+  --set-env-vars=VERIFY_AUTH_MODE=jwt \
+  --set-env-vars=VERIFY_CLOUDRUN_TOKEN_AUDIENCE=https://temporal-proxy-473197570718.us-central1.run.app \
+  --set-env-vars=VERIFY_NAMESPACE=default \
+  --set-env-vars=VERIFY_TASK_QUEUE=proxy-test-queue
+```
+---
+
 ## Deploying on Cloud Run
 
 A natural topology: run the **proxy as a Cloud Run service** (it serves gRPC) and the
