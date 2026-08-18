@@ -6,6 +6,9 @@
       "go": {
         "pkg-path": "go"
       },
+      "ko": {
+        "pkg-path": "ko"
+      },
       "nodejs_24": {
         "pkg-path": "nodejs_24"
       }
@@ -97,6 +100,93 @@
       ],
       "outputs": {
         "out": "/nix/store/pwj3x44pp735yb038fnmqckyyra9k29x-go-1.26.5"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "ko",
+      "broken": false,
+      "derivation": "/nix/store/gdf6zy8fxp5zfs2pv80s2m4dl1xndfjk-ko-0.19.1.drv",
+      "description": "Build and deploy Go applications",
+      "install_id": "ko",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "name": "ko-0.19.1",
+      "pname": "ko",
+      "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "rev_count": 1051473,
+      "rev_date": "2026-08-10T17:52:38Z",
+      "scrape_date": "2026-08-12T05:00:44.890231Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.19.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/brjy90fgwdmlywxbwygw5pwksiz1a4w7-ko-0.19.1"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "ko",
+      "broken": false,
+      "derivation": "/nix/store/4r93yx3x1yxdz9gmzaf107rdc1finkdv-ko-0.19.1.drv",
+      "description": "Build and deploy Go applications",
+      "install_id": "ko",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "name": "ko-0.19.1",
+      "pname": "ko",
+      "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "rev_count": 1051473,
+      "rev_date": "2026-08-10T17:52:38Z",
+      "scrape_date": "2026-08-12T05:34:58.574581Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.19.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/78x6qad067gl0ash831fxp25qm6kwr4b-ko-0.19.1"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "ko",
+      "broken": false,
+      "derivation": "/nix/store/fl376lf80c86y3z1806c17v15gl3gmyh-ko-0.19.1.drv",
+      "description": "Build and deploy Go applications",
+      "install_id": "ko",
+      "license": "Apache-2.0",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "name": "ko-0.19.1",
+      "pname": "ko",
+      "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+      "rev_count": 1051473,
+      "rev_date": "2026-08-10T17:52:38Z",
+      "scrape_date": "2026-08-12T06:15:21.647537Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.19.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/5ixdxmrw2sqymy61q4fpr93wqx91cnbs-ko-0.19.1"
       },
       "system": "x86_64-linux",
       "group": "toplevel",
