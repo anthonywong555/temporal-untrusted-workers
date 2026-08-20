@@ -311,6 +311,16 @@ gcloud run worker-pools deploy verify-worker \
   --set-env-vars=VERIFY_NAMESPACE=default \
   --set-env-vars=VERIFY_TASK_QUEUE=proxy-test-queue
 ```
+
+```sh
+
+gcloud secrets create proxy-auth-file --data-file=./cmd/temporal-proxy/kodata/static-auth.json --project=$PROJECT
+
+gcloud secrets add-iam-policy-binding proxy-auth-file \
+  --member="serviceAccount:473197570718-compute@developer.gserviceaccount.com" \
+  --role=roles/secretmanager.secretAccessor --project=$PROJECT
+```
+
 ---
 
 ## Deploying on Cloud Run
