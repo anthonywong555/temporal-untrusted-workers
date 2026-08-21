@@ -12,10 +12,7 @@ RUN npm run build:workflow
 
 FROM node:lts-bookworm-slim AS runtime
 WORKDIR /app
-ENV NODE_ENV=production \
-    BUILD_ID=${BUILD_ID} \
-    DEPLOYMENT_NAME=${DEPLOYMENT_NAME} \
-    VERIFY_TASK_QUEUE=${VERIFY_TASK_QUEUE} 
+ENV NODE_ENV=production
 
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev

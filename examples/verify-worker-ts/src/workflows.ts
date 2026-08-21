@@ -22,6 +22,7 @@ const { EchoActivity: EchoActivityOnForbiddenQueue } = proxyActivities<typeof ac
 // activity task queues.
 export async function EchoWorkflow(msg: string): Promise<string> {
   //await sleep('1h');
+  await sleep('10m');
   return await EchoActivity(msg);
 }
 
