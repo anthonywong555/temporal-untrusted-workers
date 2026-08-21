@@ -279,6 +279,39 @@ ___
 ---
 # Deploying to Cloud Run
 
+## Deploying the Proxy Services
+Create an IAM service account for Temporal Proxy:
+
+```sh
+gcloud iam service-accounts create temporal-proxy \
+  --display-name "Temporal Proxy"
+```
+
+Save the Service Account Email as `PROXY_SERVICE_ACCOUNT`.
+
+Upload the `static-auth.json` to Secret Manager.
+```sh
+gcloud secrets create proxy-auth-file --data-file=./cmd/temporal-proxy/kodata/static-auth.json --project=$PROJECT
+```
+
+Upload Temporal API Key to Secret Manager.
+```sh
+printf %s "$TEMPORAL_API_KEY" | gcloud secrets create temporal-api-key \
+  --data-file=- \
+  --replication-policy=automatic
+```
+
+Attach IAM Role to the Secrets
+```sh
+gcloud secrets add-iam-policy-binding proxy-auth-file \
+  --member="serviceAccount:$PROXY_SERVICE_ACCOUNT" \
+  --role=roles/secretmanager.secretAccessor --project=$PROJECT
+
+gcloud secrets add-iam-policy-binding temporal-api-key \
+  --member="serviceAccount:$PROXY_SERVICE_ACCOUNT" \
+  --role="roles/secretmanager.secretAccessor"
+```
+
 This deploys the Proxy
 ```sh
 gcloud run deploy temporal-proxy \
@@ -286,39 +319,51 @@ gcloud run deploy temporal-proxy \
   --region $REGION\
   --use-http2 \
   --allow-unauthenticated \
-  --min-instances=1 --max-instances=1 \
+  --min=1 --max=3 \
   --port=8080 \
+  --service-account=$PROXY_SERVICE_ACCOUNT \
   --set-env-vars=TEMPORAL_PROXY_LISTEN_ADDR=0.0.0.0:8080 \
   --set-env-vars=TEMPORAL_PROXY_AUTH_MODE=jwt \
   --set-env-vars=TEMPORAL_PROXY_JWT_AUDIENCE=https://temporal-proxy-473197570718.us-central1.run.app \
   --set-env-vars=TEMPORAL_PROXY_UPSTREAM_ADDR=serverless-gcp.sdvdw.tmprl.cloud:7233 \
   --set-env-vars=TEMPORAL_PROXY_UPSTREAM_TLS_MODE=tls \
   --set-env-vars=TEMPORAL_PROXY_UPSTREAM_AUTH_MODE=api-key \
-  --set-env-vars=TEMPORAL_PROXY_DOWNSTREAM_TLS_MODE=plaintext \
   --set-env-vars=TEMPORAL_PROXY_STATIC_AUTH_FILE=/etc/temporal/auth.json \
+  --set-secrets=/etc/temporal/auth.json=proxy-auth-file:latest \
   --set-secrets=TEMPORAL_PROXY_UPSTREAM_API_KEY=temporal-api-key:latest
 ```
 
+## Deploying the Verify Worker
+
+Create an IAM Role
+```sh
+gcloud iam service-accounts create temporal-worker-pool-runner \
+  --display-name "Temporal Worker Pool Runner"
+```
+
+Save the Service Account Email as `RUNNER_SERVICE_ACCOUNT`.
+
+Allow the Service Account to make API callout to the `temporal-proxy` Service.
+```sh
+gcloud run services add-iam-policy-binding temporal-proxy \
+  --region=$REGION \
+  --member="serviceAccount:$RUNNER_SERVICE_ACCOUNT" \
+  --role=roles/run.invoker
+```
+
+
+Deploy the verify worker.
 ```sh
 gcloud run worker-pools deploy verify-worker \
   --image=$IMAGE_WORKERS \
   --region $REGION\
-  --service-account=temporal-worker-pool-runner@anthony-project-470414.iam.gserviceaccount.com \
+  --service-account=$RUNNER_SERVICE_ACCOUNT \
   --set-env-vars=VERIFY_PROXY_ADDR=temporal-proxy-473197570718.us-central1.run.app:443 \
   --set-env-vars=VERIFY_TLS_MODE=tls \
   --set-env-vars=VERIFY_AUTH_MODE=jwt \
   --set-env-vars=VERIFY_CLOUDRUN_TOKEN_AUDIENCE=https://temporal-proxy-473197570718.us-central1.run.app \
-  --set-env-vars=VERIFY_NAMESPACE=default \
+  --set-env-vars=VERIFY_NAMESPACE=serverless-gcp.sdvdw \
   --set-env-vars=VERIFY_TASK_QUEUE=proxy-test-queue
-```
-
-```sh
-
-gcloud secrets create proxy-auth-file --data-file=./cmd/temporal-proxy/kodata/static-auth.json --project=$PROJECT
-
-gcloud secrets add-iam-policy-binding proxy-auth-file \
-  --member="serviceAccount:473197570718-compute@developer.gserviceaccount.com" \
-  --role=roles/secretmanager.secretAccessor --project=$PROJECT
 ```
 
 ---
