@@ -1,4 +1,4 @@
-import { proxyActivities } from '@temporalio/workflow';
+import { proxyActivities, sleep } from '@temporalio/workflow';
 // Only import the activity types - workflow code runs in a separate
 // sandboxed context and must not import the activity implementations.
 import type * as activities from './activities';
@@ -21,6 +21,7 @@ const { EchoActivity: EchoActivityOnForbiddenQueue } = proxyActivities<typeof ac
 // purely to exercise the proxy's Poll/Respond path for both workflow and
 // activity task queues.
 export async function EchoWorkflow(msg: string): Promise<string> {
+  //await sleep('1h');
   return await EchoActivity(msg);
 }
 

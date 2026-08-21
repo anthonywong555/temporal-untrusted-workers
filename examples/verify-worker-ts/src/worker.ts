@@ -13,6 +13,11 @@ function getEnv(key: string, def: string): string {
   return v && v !== '' ? v : def;
 }
 
+const workflowOption = () =>
+  process.env.NODE_ENV === 'development'
+    ? { workflowsPath: require.resolve('./workflows') }
+    : { workflowBundle: { codePath: require.resolve('../workflow-bundle.js') } };
+
 // resolveCredential returns the credential the worker presents to the proxy,
 // per VERIFY_AUTH_MODE. In "static" mode it is VERIFY_API_KEY (a shared API
 // key); in "jwt" mode it is this instance's Google Cloud Run identity token,
@@ -49,8 +54,10 @@ async function resolveCredential(authMode: string, proxyAddr: string): Promise<s
 async function run(): Promise<void> {
   const proxyAddr = getEnv('VERIFY_PROXY_ADDR', '127.0.0.1:7243');
   const namespace = getEnv('VERIFY_NAMESPACE', 'default');
-  const taskQueue = getEnv('VERIFY_TASK_QUEUE', 'proxy-test-queue');
+  const taskQueue = getEnv('VERIFY_TASK_QUEUE', 'customer-a');
   const authMode = getEnv('VERIFY_AUTH_MODE', AUTH_MODE_STATIC);
+  const buildId = getEnv('BUILD_ID', 'build-1');
+  const deploymentName = getEnv('DEPLOYMENT_NAME', 'customer-a-workers');
 
   // The proxy accepts the credential the same way in either mode (an
   // "authorization: Bearer <cred>" header via the apiKey connection option);
@@ -72,14 +79,19 @@ async function run(): Promise<void> {
 
   try {
     const worker = await Worker.create({
+      ...workflowOption(),
       connection,
       namespace,
       taskQueue,
-      workflowsPath: require.resolve('./workflows'),
       activities,
+      workerDeploymentOptions: {
+        version: { deploymentName, buildId },
+        useWorkerVersioning: true,
+        defaultVersioningBehavior: 'PINNED'
+      }
     });
 
-    console.log(`verify-worker-ts starting: proxy=${proxyAddr} namespace=${namespace} taskQueue=${taskQueue}`);
+    console.log(`verify-worker-ts starting: proxy=${proxyAddr} namespace=${namespace} taskQueue=${taskQueue} deploymentName=${deploymentName}`);
     await worker.run();
   } finally {
     await connection.close();

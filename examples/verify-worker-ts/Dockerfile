@@ -8,13 +8,19 @@ RUN npm ci
 COPY tsconfig.json ./
 COPY src ./src
 RUN npm run build
+RUN npm run build:workflow
 
 FROM node:lts-bookworm-slim AS runtime
 WORKDIR /app
-ENV NODE_ENV=production
+ENV NODE_ENV=production \
+    BUILD_ID=${BUILD_ID} \
+    DEPLOYMENT_NAME=${DEPLOYMENT_NAME} \
+    VERIFY_TASK_QUEUE=${VERIFY_TASK_QUEUE} 
+
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 COPY --from=build /app/lib ./lib
+COPY --from=build /app/workflow-bundle.js ./workflow-bundle.js
 RUN apt-get update \
     && apt-get install -y ca-certificates \
     && rm -rf /var/lib/apt/lists/*
