@@ -21,7 +21,7 @@ const { EchoActivity: EchoActivityOnForbiddenQueue } = proxyActivities<typeof ac
 // purely to exercise the proxy's Poll/Respond path for both workflow and
 // activity task queues.
 export async function EchoWorkflow(msg: string): Promise<string> {
-  await sleep('10m');
+  await sleep('5m');
   return await EchoActivity(msg);
 }
 
