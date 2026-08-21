@@ -11,6 +11,16 @@
       "namespace": "serverless-gcp.sdvdw",
       "task_queue": "proxy-test-queue",
       "subject": "worker-fleet-a"
+    },
+    "customer-a@anthony-project-470414.iam.gserviceaccount.com": {
+      "namespace": "serverless-gcp.sdvdw",
+      "task_queue": "customer-a",
+      "subject": "worker-fleet-a"
+    },
+    "customer-b@anthony-project-470414.iam.gserviceaccount.com": {
+      "namespace": "serverless-gcp.sdvdw",
+      "task_queue": "customer-b",
+      "subject": "worker-fleet-a"
     }
   }
 }
